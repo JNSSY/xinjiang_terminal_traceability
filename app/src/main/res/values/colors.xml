@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#418bf4</color>
+    <color name="colorPrimaryDark">#418bf4</color>
+    <color name="colorAccent">#418bf4</color>
+
+    <color name="white">#ffffff</color>
+    <color name="gray">#8a8a8a</color>
+    <color name="main_bg">#D3CACA</color>
+    <color name="item_div_color">#dddddd</color>
+    <color name="red">#ff0000</color>
+
+
+    <color name="possible_result_points">#c0ffbd21</color> <!-- Android standard ICS color -->
+    <!-- Android standard ICS color -->
+    <color name="result_view">#b0000000</color>
+    <!-- Android standard ICS color -->
+    <color name="viewfinder_mask">#00000000</color>
+    <color name="capture_text_cover_bg">#00000000</color>
+
+
+
+
+</resources>
