@@ -38,7 +38,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:textSize="17sp" />
 
-    <com.wy.devicerecycle.view.TabLayout.CommonTabLayout
+    <com.wy.xjtermtrac.view.TabLayout.CommonTabLayout
         android:id="@+id/tl"
         android:layout_width="match_parent"
         android:layout_height="50dp"

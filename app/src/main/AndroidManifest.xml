@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.wy.devicerecycle">
+    package="com.wy.xjtermtrac">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -18,18 +18,18 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".acitivty.LoginActivity">
+        <activity android:name="com.wy.xjtermtrac.acitivty.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".code2.activity.CaptureActivity" />
-        <activity android:name=".acitivty.DeviceRecycleActivity" />
-        <activity android:name=".acitivty.DeviceScrapActivity" />
-        <activity android:name=".view.TabLayout.ScanCodeUseActivity" />
-        <activity android:name=".acitivty.MainActivity" />
+        <activity android:name="com.wy.xjtermtrac.code2.activity.CaptureActivity" />
+        <activity android:name="com.wy.xjtermtrac.acitivty.DeviceRecycleActivity" />
+        <activity android:name="com.wy.xjtermtrac.acitivty.DeviceScrapActivity" />
+        <activity android:name="com.wy.xjtermtrac.view.TabLayout.ScanCodeUseActivity" />
+        <activity android:name="com.wy.xjtermtrac.acitivty.MainActivity" />
     </application>
 
 </manifest>

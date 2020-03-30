@@ -1,0 +1,6 @@
+package com.wy.xjtermtrac.view.TabLayout;
+
+public interface OnTabSelectListener {
+    void onTabSelect (int position);
+    void onTabReselect (int position);
+}
