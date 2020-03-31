@@ -18,18 +18,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.wy.xjtermtrac.acitivty.LoginActivity">
+        <activity android:name=".acitivty.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.wy.xjtermtrac.code2.activity.CaptureActivity" />
-        <activity android:name="com.wy.xjtermtrac.acitivty.DeviceRecycleActivity" />
-        <activity android:name="com.wy.xjtermtrac.acitivty.DeviceScrapActivity" />
-        <activity android:name="com.wy.xjtermtrac.view.TabLayout.ScanCodeUseActivity" />
-        <activity android:name="com.wy.xjtermtrac.acitivty.MainActivity" />
+        <activity android:name=".code2.activity.CaptureActivity" />
+        <activity android:name=".acitivty.MainActivity" />
     </application>
 
 </manifest>

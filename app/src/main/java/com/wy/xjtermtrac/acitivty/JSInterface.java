@@ -3,6 +3,7 @@ package com.wy.xjtermtrac.acitivty;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
@@ -16,7 +17,7 @@ public class JSInterface {
     private AlertDialog.Builder builder;
 
 
-    public JSInterface (WebView wv, MainActivity activity) {
+    public JSInterface (WebView wv, Activity activity) {
         this.wv = wv;
         this.activity = activity;
     }
@@ -35,15 +36,12 @@ public class JSInterface {
      */
     @JavascriptInterface
     public void getUserNum () {
-//        wv.post(new Runnable() {
-//            @Override
-//            public void run () {
-//
-//            }
-//        });
-//        show();
-        wv.loadUrl("javascript:loginInfoCallback('" + getLoginInfo() + "')");
-//        Log.e("wy", getLoginInfo());
+        wv.post(new Runnable() {
+            @Override
+            public void run () {
+                wv.loadUrl("javascript:loginInfoCallback('" + getLoginInfo() + "')");
+            }
+        });
     }
 
     public String getLoginInfo () {
@@ -56,7 +54,7 @@ public class JSInterface {
         }
     }
 
-    private void show () {
+    public void show () {
         builder = new AlertDialog.Builder(activity);
         builder.setMessage(getLoginInfo());
         builder.show();

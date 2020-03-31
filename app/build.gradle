@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.wy.devicerecycle"
+        applicationId "com.wy.xjtermtrac"
         minSdkVersion 15
         targetSdkVersion 29
         versionCode 1

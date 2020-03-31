@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 
 import com.wy.xjtermtrac.R;
 import com.wy.xjtermtrac.view.TabLayout.CommonTabLayout;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Toolbar tb;
     private ViewPager mPagerVp;
     private CommonTabLayout mTabCt;
 
@@ -32,13 +30,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate (@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         fragments = initFragment();
         setContentView(R.layout.activity_login);
 
         initView();
-
-
 
     }
 
