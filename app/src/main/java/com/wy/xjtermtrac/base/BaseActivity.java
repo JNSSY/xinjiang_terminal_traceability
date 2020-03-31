@@ -1,6 +1,5 @@
 package com.wy.xjtermtrac.base;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -117,7 +116,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 Toast.makeText(this, "不能识别", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "不能识别", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "不能识别", Toast.LENGTH_SHORT).show();
         }
     }
 

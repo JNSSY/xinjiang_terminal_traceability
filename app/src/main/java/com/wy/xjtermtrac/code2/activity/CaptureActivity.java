@@ -132,45 +132,12 @@ public final class CaptureActivity extends Activity implements
 
     private Handler mHandler = new MyHandler(this);
 
-    static class MyHandler extends Handler {
-
-        private WeakReference<Activity> activityReference;
-
-        public MyHandler(Activity activity) {
-            activityReference = new WeakReference<Activity>(activity);
-        }
-
-
-        @Override
-        public void handleMessage(Message msg) {
-
-            switch (msg.what) {
-                case PARSE_BARCODE_SUC: // 解析图片成功
-//                    Toast.makeText(activityReference.get(),
-//                            "解析成功，结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
-                    break;
-
-                case PARSE_BARCODE_FAIL:// 解析图片失败
-
-                    Toast.makeText(activityReference.get(), "解析图片失败",
-                            Toast.LENGTH_SHORT).show();
-                    break;
-
-                default:
-                    break;
-            }
-
-            super.handleMessage(msg);
-        }
-
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                , WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setContentView(R.layout.capture);
 
         hasSurface = false;
@@ -186,7 +153,7 @@ public final class CaptureActivity extends Activity implements
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume () {
         super.onResume();
 
         // CameraManager must be initialized here, not in onCreate(). This is
@@ -243,7 +210,7 @@ public final class CaptureActivity extends Activity implements
     }
 
     @Override
-    protected void onPause() {
+    protected void onPause () {
         if (handler != null) {
             handler.quitSynchronously();
             handler = null;
@@ -263,13 +230,13 @@ public final class CaptureActivity extends Activity implements
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy () {
         inactivityTimer.shutdown();
         super.onDestroy();
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
+    public boolean onKeyDown (int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
                 if ((source == IntentSource.NONE) && lastResult != null) { // 重新进行扫描
@@ -295,7 +262,7 @@ public final class CaptureActivity extends Activity implements
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, final Intent intent) {
+    public void onActivityResult (int requestCode, int resultCode, final Intent intent) {
 
         if (resultCode == RESULT_OK) {
             final ProgressDialog progressDialog;
@@ -319,7 +286,7 @@ public final class CaptureActivity extends Activity implements
                         progressDialog.show();
                         new Thread(new Runnable() {
                             @Override
-                            public void run() {
+                            public void run () {
                                 Bitmap img = BitmapUtils.getCompressedBitmap(photoPath);
                                 BitmapDecoder decoder = new BitmapDecoder(CaptureActivity.this);
                                 Result result = decoder.getRawResult(img);
@@ -346,7 +313,7 @@ public final class CaptureActivity extends Activity implements
     }
 
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void surfaceCreated (SurfaceHolder holder) {
         if (holder == null) {
             Log.e(TAG, "*** WARNING *** surfaceCreated() gave us a null surface!");
         }
@@ -357,13 +324,13 @@ public final class CaptureActivity extends Activity implements
     }
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                               int height) {
+    public void surfaceChanged (SurfaceHolder holder, int format, int width,
+                                int height) {
         hasSurface = false;
     }
 
     @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
+    public void surfaceDestroyed (SurfaceHolder holder) {
 
     }
 
@@ -375,7 +342,7 @@ public final class CaptureActivity extends Activity implements
      * @param scaleFactor amount by which thumbnail was scaled
      * @param barcode     A greyscale bitmap of the camera data which was decoded.
      */
-    public void handleDecode(Result rawResult, Bitmap barcode, float scaleFactor) {
+    public void handleDecode (Result rawResult, Bitmap barcode, float scaleFactor) {
 
         // 重新计时
         inactivityTimer.onActivity();
@@ -398,35 +365,35 @@ public final class CaptureActivity extends Activity implements
         finish();
     }
 
-    public void restartPreviewAfterDelay(long delayMS) {
+    public void restartPreviewAfterDelay (long delayMS) {
         if (handler != null) {
             handler.sendEmptyMessageDelayed(R.id.restart_preview, delayMS);
         }
         resetStatusView();
     }
 
-    public ViewfinderView getViewfinderView() {
+    public ViewfinderView getViewfinderView () {
         return viewfinderView;
     }
 
-    public Handler getHandler() {
+    public Handler getHandler () {
         return handler;
     }
 
-    public CameraManager getCameraManager() {
+    public CameraManager getCameraManager () {
         return cameraManager;
     }
 
-    private void resetStatusView() {
+    private void resetStatusView () {
         viewfinderView.setVisibility(View.VISIBLE);
         lastResult = null;
     }
 
-    public void drawViewfinder() {
+    public void drawViewfinder () {
         viewfinderView.drawViewfinder();
     }
 
-    private void initCamera(SurfaceHolder surfaceHolder) {
+    private void initCamera (SurfaceHolder surfaceHolder) {
         if (surfaceHolder == null) {
             throw new IllegalStateException("No SurfaceHolder provided");
         }
@@ -456,7 +423,7 @@ public final class CaptureActivity extends Activity implements
      * @param bitmap
      * @param result
      */
-    private void decodeOrStoreSavedBitmap(Bitmap bitmap, Result result) {
+    private void decodeOrStoreSavedBitmap (Bitmap bitmap, Result result) {
         // Bitmap isn't used yet -- will be used soon
         if (handler == null) {
             savedResultToShow = result;
@@ -473,7 +440,7 @@ public final class CaptureActivity extends Activity implements
         }
     }
 
-    private void displayFrameworkBugMessageAndExit() {
+    private void displayFrameworkBugMessageAndExit () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(getString(R.string.app_name));
         builder.setMessage(getString(R.string.msg_camera_framework_bug));
@@ -483,7 +450,7 @@ public final class CaptureActivity extends Activity implements
     }
 
     @Override
-    public void onClick(View v) {
+    public void onClick (View v) {
         if (v.getId() == R.id.capture_scan_photo) { // 图片识别
             // 打开手机中的相册
             Intent innerIntent = new Intent(Intent.ACTION_PICK); // "android.intent.action.GET_CONTENT"
@@ -504,11 +471,44 @@ public final class CaptureActivity extends Activity implements
 
     }
 
-    private void setCaptureResult(String result) {
+    private void setCaptureResult (String result) {
         Intent data = new Intent();
         data.putExtra(SCAN_QRCODE_RESULT, result);
         setResult(0, data);
         finish();
+    }
+
+    static class MyHandler extends Handler {
+
+        private WeakReference<Activity> activityReference;
+
+        public MyHandler (Activity activity) {
+            activityReference = new WeakReference<Activity>(activity);
+        }
+
+
+        @Override
+        public void handleMessage (Message msg) {
+
+            switch (msg.what) {
+                case PARSE_BARCODE_SUC: // 解析图片成功
+//                    Toast.makeText(activityReference.get(),
+//                            "解析成功，结果为：" + msg.obj, Toast.LENGTH_SHORT).show();
+                    break;
+
+                case PARSE_BARCODE_FAIL:// 解析图片失败
+
+                    Toast.makeText(activityReference.get(), "解析图片失败",
+                            Toast.LENGTH_SHORT).show();
+                    break;
+
+                default:
+                    break;
+            }
+
+            super.handleMessage(msg);
+        }
+
     }
 
 }
