@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.wy.xjtermtrac.R;
+import com.wy.xjtermtrac.base.BaseActivity;
 import com.wy.xjtermtrac.view.TabLayout.CommonTabLayout;
 import com.wy.xjtermtrac.view.TabLayout.CustomTabEntity;
 import com.wy.xjtermtrac.view.TabLayout.OnTabSelectListener;
@@ -17,7 +18,7 @@ import com.wy.xjtermtrac.fragment.PwLoginFragment;
 
 import java.util.ArrayList;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private ViewPager mPagerVp;
     private CommonTabLayout mTabCt;
@@ -27,14 +28,26 @@ public class LoginActivity extends AppCompatActivity {
     private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
     protected String[] mTitles = {"222", "333"};
 
+
     @Override
-    protected void onCreate (@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int initLayout () {
+        return R.layout.activity_login;
+    }
+
+    @Override
+    protected void findViewById () {
+
+    }
+
+    @Override
+    protected void initListener () {
+
+    }
+
+    @Override
+    protected void init () {
         fragments = initFragment();
-        setContentView(R.layout.activity_login);
-
         initView();
-
     }
 
 
@@ -106,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         mPagerVp.setOffscreenPageLimit(mTitles.length);
     }
+
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 

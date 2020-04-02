@@ -1,9 +1,11 @@
 package com.wy.xjtermtrac.base;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +14,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
@@ -20,8 +23,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.wy.xjtermtrac.Constant;
 import com.wy.xjtermtrac.Permission;
 import com.wy.xjtermtrac.acitivty.JSInterface;
@@ -37,23 +45,35 @@ import static com.wy.xjtermtrac.Permission.lengh;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private static boolean mBackKeyPressed = false;//记录是否有首次按键
+    public ProgressBar pb_loading;
     public WebView wv;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate (@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(initLayout());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermission(index);
-        }
 
         findViewById();
         initListener();
+        if (null != wv) {
+            setWeb();
+        }
         init();
-        setWeb();
 
     }
+
+    public void initPermission () {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermission(index);
+        }
+        initView();
+    }
+
+    private void initView () {
+        progressDialog = new ProgressDialog(this);
+    }
+
 
 
     //初始化页面
@@ -67,6 +87,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void init ();
 
 
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     public void setWeb () {
         WebSettings settings = wv.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -74,9 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         settings.setAppCacheEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         wv.addJavascriptInterface(new JSInterface(wv, this), "android");
-
         wv.setWebViewClient(new MyWebViewClient());
-
         wv.setWebChromeClient(new MyWebChromeClient());
     }
 
@@ -123,6 +142,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed () {
         if (wv.canGoBack()) {
+            wv.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
             wv.goBack();
         } else {
             doFinish();
@@ -144,6 +164,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void showDialog (String msg) {
+        if (progressDialog != null) {
+            progressDialog.setMessage(msg);
+            progressDialog.show();
+        }
+    }
+
+    public void removeDialog () {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+    }
+
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading (WebView view, String url) {
@@ -151,15 +184,19 @@ public abstract class BaseActivity extends AppCompatActivity {
             return true;
         }
 
-        @Override
-        public void onPageStarted (WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-        }
 
-        @Override
-        public void onPageFinished (WebView view, String url) {
-            super.onPageFinished(view, url);
-        }
+//        @Override
+//        public void onReceivedError (WebView view, int errorCode, String description, final String failingUrl) {
+//            super.onReceivedError(view, errorCode, description, failingUrl);
+////            pb_loading.setVisibility(View.GONE);
+//            view.postDelayed(new Runnable() {
+//                @Override
+//                public void run () {
+//                    wv.loadUrl(Constant.INDEX_PAGE);
+//                }
+//            }, 500);
+//
+//        }
     }
 
     private class MyWebChromeClient extends WebChromeClient {
@@ -220,6 +257,15 @@ public abstract class BaseActivity extends AppCompatActivity {
          */
         @Override
         public void onProgressChanged (WebView view, int newProgress) {
+            if (newProgress == 100) {
+                removeDialog();
+//                pb_loading.setVisibility(View.GONE);
+            } else {
+                showDialog("请稍后...");
+//                pb_loading.setVisibility(View.VISIBLE);
+//                pb_loading.setProgress(newProgress);
+            }
+
             super.onProgressChanged(view, newProgress);
         }
     }

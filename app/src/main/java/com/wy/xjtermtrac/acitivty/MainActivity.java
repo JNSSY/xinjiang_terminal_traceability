@@ -1,5 +1,7 @@
 package com.wy.xjtermtrac.acitivty;
 
+import android.view.View;
+
 import com.wy.xjtermtrac.Constant;
 import com.wy.xjtermtrac.R;
 import com.wy.xjtermtrac.base.BaseActivity;
@@ -15,6 +17,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void findViewById () {
         wv = findViewById(R.id.wv);
+        pb_loading = findViewById(R.id.pb_loading);
     }
 
     @Override
@@ -24,17 +27,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init () {
+        initPermission();
         wv.loadUrl(Constant.INDEX_PAGE);
-    }
-
-
-
-
-
-    private void loadData () {
-//        JSInterface jsInterface = new JSInterface(wv, this);
-//        wv.loadUrl("javascript:loginInfoCallback('" + jsInterface.getLoginInfo() + "')");
-//        Log.e("wy",jsInterface.getLoginInfo());
     }
 
 
